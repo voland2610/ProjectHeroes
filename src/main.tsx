@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AppRouter } from './app/providers/router.tsx';
+import { AppRouter } from './app/providers/AppRouter.tsx';
 
 const queryClient = new QueryClient();
 
