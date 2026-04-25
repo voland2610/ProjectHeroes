@@ -4,7 +4,7 @@ interface CharacterCardProps {
   image: string;
 }
 
-const CharacterCard = ({ name, status, image }: CharacterCardProps) => {
+export const CharacterCard = ({ name, status, image }: CharacterCardProps) => {
   return (
     <>
       <h1>{name}</h1>
@@ -14,4 +14,3 @@ const CharacterCard = ({ name, status, image }: CharacterCardProps) => {
   );
 };
 
-export default CharacterCard;
