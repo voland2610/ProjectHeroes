@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
 import { getCharacters } from "../api/getCharacters.ts"
 
-export function useCharacters() {
+export function useCharacters(search: string) {
   return useQuery({
-    queryKey: ["characters"],
-    queryFn: () => getCharacters("https://rickandmortyapi.com/api/character")
+    queryKey: ["characters", search],
+    queryFn: () => getCharacters(`https://rickandmortyapi.com/api/character?name=${search}`)
   })
 }
