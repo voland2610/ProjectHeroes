@@ -1,2 +1,2 @@
-export {type Info} from './model/Info.ts'
-export {useCharacters} from './hooks/useCharacters.ts'
+export {type Info} from './model/Info'
+export {useCharacters} from './hooks/useCharacters'
