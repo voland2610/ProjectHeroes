@@ -1,4 +1,4 @@
-import { CharacterCard } from "../entities/character/ui/CharacterCard";
+import { CharactersList } from "~/widgets/characters-list/ui/CharactersList";
 import {useCharacters} from "~/entities/character";
 
 const Characters = () => {
@@ -12,18 +12,9 @@ const Characters = () => {
     return <h1>Произошла ошибка</h1>;
   }
 
-  return (
-    <>
-      {data?.results.map((character) => (
-        <CharacterCard
-          key={character.id}
-          name={character.name}
-          status={character.status}
-          image={character.image}
-        />
-      ))}
-    </>
-  );
+  if (data != null) {
+    return <CharactersList data={data.results}/>
+  }
 };
 
 export default Characters;
