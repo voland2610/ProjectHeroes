@@ -1,53 +1,50 @@
+import { useEffect, useState } from "react";
 import { CharactersList } from "~/widgets/characters-list/ui/CharactersList";
 import { useCharacters } from "~/entities/character";
-import { useEffect, useState } from "react";
 
 const Characters = () => {
   const [inputValue, setInputValue] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
+
   const { data, isLoading, isError } = useCharacters(debouncedValue);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => setDebouncedValue(inputValue), 500);
-    return () => {
-      clearTimeout(timeoutId);
-    };
+    const timeoutId = setTimeout(() => {
+      setDebouncedValue(inputValue.trim());
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
   }, [inputValue]);
 
-  if (isLoading) {
-    return (
-      <>
-        <input
-          type="text"
-          onChange={(e) => setInputValue(e.target.value)}
-          value={inputValue}
-        />
-        <h1>Идет загрузка</h1>
-      </>
-    );
-  }
+  const results = data?.results ?? [];
 
-  if (isError) {
-    return <h1>Произошла ошибка</h1>;
-  }
+  const renderContent = () => {
+    if (isLoading) {
+      return <h1>Идет загрузка</h1>;
+    }
 
-  if (data == undefined) {
-    return null;
-  }
+    if (isError) {
+      return <h1>Есть ошибка</h1>;
+    }
+
+    if (!results.length) {
+      return <h1>По вашему запросу ничего нет</h1>;
+    }
+
+    return <CharactersList data={results} />;
+  };
 
   return (
-    <>
+    <div>
       <input
         type="text"
-        onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
-      <CharactersList data={data.results} />
-    </>
+
+      {renderContent()}
+    </div>
   );
 };
-// убрать дублирование input
-// оставить input всегда
-// добавить "ничего не найдено"
 
 export default Characters;
