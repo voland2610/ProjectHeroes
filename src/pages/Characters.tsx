@@ -5,12 +5,14 @@ import { useCharacters } from "~/entities/character";
 const Characters = () => {
   const [inputValue, setInputValue] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError } = useCharacters(debouncedValue);
+  const { data, isLoading, isError } = useCharacters(debouncedValue, page);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebouncedValue(inputValue.trim());
+      setPage(1)
     }, 500);
 
     return () => clearTimeout(timeoutId);
@@ -36,6 +38,7 @@ const Characters = () => {
 
   return (
     <div>
+      {page}
       <input
         type="text"
         value={inputValue}
@@ -43,6 +46,25 @@ const Characters = () => {
       />
 
       {renderContent()}
+
+      <button
+        onClick={() => {
+          if (page > 1) {
+            setPage((page) => page - 1);
+          }
+        }}
+      >
+        back
+      </button>
+      <button
+        onClick={() => {
+          if (page < 42) {
+            setPage((page) => page + 1);
+          }
+        }}
+      >
+        next
+      </button>
     </div>
   );
 };
