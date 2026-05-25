@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { CharactersList } from "~/widgets/characters-list/ui/CharactersList";
 import { useCharacters } from "~/entities/character";
+import { CharacterSearch } from "~/widgets/character-search/ui/Character-search";
+import { CharactersPagination } from "~/features/characters-pagination/Characters-pagination";
+
+//Вынести renderContent, debounced в отдельные файлы по FSD
 
 const Characters = () => {
   const [inputValue, setInputValue] = useState("");
@@ -12,13 +16,17 @@ const Characters = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebouncedValue(inputValue.trim());
-      setPage(1)
     }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [inputValue]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [inputValue]);
+
   const results = data?.results ?? [];
+  const pagesCount = data?.info.pages; //решить проблему с этой строчкой undefined
 
   const renderContent = () => {
     if (isLoading) {
@@ -38,33 +46,31 @@ const Characters = () => {
 
   return (
     <div>
-      {page}
-      <input
-        type="text"
-        value={inputValue}
+      <CharacterSearch
         onChange={(e) => setInputValue(e.target.value)}
+        value={inputValue}
       />
+      {page}
 
       {renderContent()}
-
-      <button
+      <CharactersPagination
+        disabled={1 == page}
+        text={"back"}
         onClick={() => {
           if (page > 1) {
-            setPage((page) => page - 1);
+            setPage((page) => page - 1); 
           }
         }}
-      >
-        back
-      </button>
-      <button
+      />
+      <CharactersPagination
+        disabled={data?.info.pages == page}
+        text={"next"}
         onClick={() => {
-          if (page < 42) {
-            setPage((page) => page + 1);
+          if (page < pagesCount) {
+            setPage((page) => page + 1); //продумать логику на локальный поиск
           }
         }}
-      >
-        next
-      </button>
+      />
     </div>
   );
 };
