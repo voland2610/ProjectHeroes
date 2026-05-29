@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useCharacters } from "~/entities/character";
 import { CharacterSearch } from "~/widgets/character-search/ui/Character-search";
 import { CharactersPagination } from "~/features/characters-pagination/Characters-pagination";
-import { CharactersView } from "~/widgets/characters-view/CharactersStateView";
+import { CharactersView } from "~/widgets/characters-view/CharactersView";
 import { useDebounce } from "~/shared/hooks/useDebounce";
 
 const Characters = () => {
@@ -27,7 +27,7 @@ const Characters = () => {
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
       />
-      {page}
+      {"Страница " + page}
       <CharactersView
         isLoading={isLoading}
         isError={isError}
@@ -47,10 +47,11 @@ const Characters = () => {
         text={"next"}
         onClick={() => {
           if (page < pagesCount) {
-            setPage((page) => page + 1); //продумать логику на локальный поиск
+            setPage((page) => page + 1); 
           }
         }}
       />
+      
     </div>
   );
 };

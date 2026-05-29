@@ -1,5 +1,6 @@
 import { Character } from "~/entities/character/model/Character";
 import { CharacterCard } from "~/entities/character/ui/CharacterCard";
+import styles from "./charactersList.module.scss"
 
 interface CharacterListProps {
     data: Character[];
@@ -7,7 +8,7 @@ interface CharacterListProps {
 
 export const CharactersList = ({data}: CharacterListProps) => {
   return (
-    <>
+    <div className={styles.cards}>
       {data.map((character) => (
         <CharacterCard
           key={character.id}
@@ -17,6 +18,6 @@ export const CharactersList = ({data}: CharacterListProps) => {
         />
       ))}
       
-    </>
+    </div>
   );
 };

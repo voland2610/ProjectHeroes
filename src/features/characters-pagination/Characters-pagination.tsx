@@ -1,4 +1,5 @@
 import { MouseEventHandler } from "react";
+import styles from "./characters-pagination.module.scss"
 
 interface CharactersPaginationProps {
     disabled: boolean;
@@ -7,7 +8,7 @@ interface CharactersPaginationProps {
 }
 export const CharactersPagination = ({disabled, onClick ,text}: CharactersPaginationProps) => {
   return (
-    <button disabled={disabled} onClick={onClick}>{text}</button>
+    <button className={styles.button} disabled={disabled} onClick={onClick}>{text}</button>
   );
 };
 
