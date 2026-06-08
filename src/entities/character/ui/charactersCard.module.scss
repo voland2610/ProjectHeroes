@@ -1,4 +1,5 @@
 .card {
+  // TODO: Стараться не использовать фиксированные величины.
   width: 300px;
   height: 400px;
   margin-bottom: 20px;
@@ -6,7 +7,7 @@
     text-align: center;
     margin-bottom: 10px;
   }
-  .cardStatus{
+  .cardStatus {
     text-align: center;
     margin-bottom: 10px;
   }

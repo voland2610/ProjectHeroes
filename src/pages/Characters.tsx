@@ -11,12 +11,16 @@ const Characters = () => {
   const delay = 500;
 
   const debouncedValue = useDebounce(inputValue, delay);
-  const { data, isLoading, isError } = useCharacters(debouncedValue.trim(), page);
+  const { data, isLoading, isError } = useCharacters(
+    debouncedValue.trim(),
+    page
+  );
 
   const results = data?.results ?? [];
 
   useEffect(() => {
     setPage(1);
+    // TODO: Лучше использовать debouncedValue.
   }, [inputValue]);
 
   const pagesCount = data?.info.pages;
@@ -33,7 +37,9 @@ const Characters = () => {
         isError={isError}
         results={results}
       />
+      {/* Попробовать сделать удобную пагинацию и добавить информацию о странцие внизу. */}
       <CharactersPagination
+        // TODO: Используем строгое сравнение.
         disabled={page == 1}
         text={"back"}
         onClick={() => {
@@ -46,12 +52,11 @@ const Characters = () => {
         disabled={data?.info.pages == page}
         text={"next"}
         onClick={() => {
-          if (page < pagesCount) {
-            setPage((page) => page + 1); 
+          if (pagesCount && page < pagesCount) {
+            setPage((page) => page + 1);
           }
         }}
       />
-      
     </div>
   );
 };
