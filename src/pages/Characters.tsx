@@ -20,8 +20,7 @@ const Characters = () => {
 
   useEffect(() => {
     setPage(1);
-    // TODO: Лучше использовать debouncedValue.
-  }, [inputValue]);
+  }, [debouncedValue]);
 
   const pagesCount = data?.info.pages;
 
@@ -31,16 +30,16 @@ const Characters = () => {
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
       />
-      {"Страница " + page}
+      
       <CharactersView
         isLoading={isLoading}
         isError={isError}
         results={results}
       />
       {/* Попробовать сделать удобную пагинацию и добавить информацию о странцие внизу. */}
+      {"Страница " + page}
       <CharactersPagination
-        // TODO: Используем строгое сравнение.
-        disabled={page == 1}
+        disabled={page === 1}
         text={"back"}
         onClick={() => {
           if (page > 1) {
@@ -49,7 +48,7 @@ const Characters = () => {
         }}
       />
       <CharactersPagination
-        disabled={data?.info.pages == page}
+        disabled={data?.info.pages === page}
         text={"next"}
         onClick={() => {
           if (pagesCount && page < pagesCount) {

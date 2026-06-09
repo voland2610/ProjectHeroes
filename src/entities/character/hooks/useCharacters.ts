@@ -6,9 +6,10 @@ export function useCharacters(search: string, page: number) {
   return useQuery<CharacterResponse>({
     queryKey: ["characters", search, page],
     queryFn: () =>
-      getCharacters(
-        `https://rickandmortyapi.com/api/character?&name=${search}&page=${page}`
-      ),
+      getCharacters({
+        name: search,
+        page,
+      }),
     placeholderData: keepPreviousData,
   });
 }
