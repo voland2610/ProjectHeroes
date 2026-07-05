@@ -15,7 +15,8 @@ export const CharacterCard = ({
   image,
   id,
 }: CharacterCardProps) => {
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const { addFavorite, removeFavorite, isFavorite, toggleFavorite } = useFavorites();
+  const isFavoriteCharacter = isFavorite(id); 
   return (
     <div className={styles.card}>
       <h1 className={styles.cardTitle}>{name}</h1>
@@ -24,11 +25,11 @@ export const CharacterCard = ({
         <img className={styles.cardImg} src={image} alt={name} />
         <span
           onClick={() =>
-            !isFavorite(id) ? addFavorite(id) : removeFavorite(id)
+            toggleFavorite(id)
           }
           className={styles.isFavorites}
         >
-          {!isFavorite(id) ? "🤍" : "❤️"}
+          {isFavoriteCharacter ? "❤️" :"🤍" }
         </span>
       </div>
     </div>

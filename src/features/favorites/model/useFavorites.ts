@@ -33,10 +33,18 @@ export const useFavorites = () => {
     return favorite.includes(id);
   }
 
+  function toggleFavorite(id: number) {
+    if(favorite.includes(id)) {
+      removeFavorite(id)
+    } else {
+      addFavorite(id)
+    }
+  }
+
   return {
-    favorites: favorite,
     addFavorite,
     removeFavorite,
     isFavorite,
+    toggleFavorite,
   };
 };
