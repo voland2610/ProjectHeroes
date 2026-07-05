@@ -15,8 +15,7 @@ export const CharacterCard = ({
   image,
   id,
 }: CharacterCardProps) => {
-  const { favorites,addFavorite, removeFavorite, isFavorite } = useFavorites();
-  console.log("favorites:", favorites);
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
   return (
     <div className={styles.card}>
       <h1 className={styles.cardTitle}>{name}</h1>

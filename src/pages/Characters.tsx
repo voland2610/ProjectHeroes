@@ -1,28 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCharacters } from "~/entities/character";
 import { CharacterSearch } from "~/widgets/character-search/ui/Character-search";
 import { CharactersPagination } from "~/features/characters-pagination/Characters-pagination";
 import { CharactersView } from "~/widgets/characters-view/CharactersView";
 import { useDebounce } from "~/shared/hooks/useDebounce";
+import { useSearchParams } from "react-router-dom";
 
 const Characters = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [page, setPage] = useState(1);
-  const delay = 500;
+  const isFirstRender = useRef(true);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get("page") ?? 1);
+
+  const nameFromUrl = searchParams.get("name") ?? "";
+  const [inputValue, setInputValue] = useState(() => {
+    return nameFromUrl;
+  });
+  const prevNameRef = useRef(nameFromUrl);
+  const delay = 500;
   const debouncedValue = useDebounce(inputValue, delay);
+
   const { data, isLoading, isError } = useCharacters(
     debouncedValue.trim(),
-    page
+    page,
   );
 
-  const results = data?.results ?? [];
+  useEffect(() => {
+    setInputValue(nameFromUrl);
+  }, [nameFromUrl]);
 
   useEffect(() => {
-    setPage(1);
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      prevNameRef.current = debouncedValue;
+      return;
+    }
+
+    setSearchParams((prev) => {
+      const params = Object.fromEntries(prev);
+
+      return {
+        ...params,
+        name: debouncedValue,
+      };
+    });
+
+    prevNameRef.current = debouncedValue;
   }, [debouncedValue]);
 
   const pagesCount = data?.info.pages;
+  const results = data?.results ?? [];
 
   return (
     <div>
@@ -30,7 +57,7 @@ const Characters = () => {
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
       />
-      
+
       <CharactersView
         isLoading={isLoading}
         isError={isError}
@@ -43,7 +70,15 @@ const Characters = () => {
         text={"back"}
         onClick={() => {
           if (page > 1) {
-            setPage((page) => page - 1);
+            setSearchParams((prev) => {
+              const params = Object.fromEntries(prev);
+              const currentPage = Number(params.page ?? 1);
+
+              return {
+                ...params,
+                page: String(currentPage - 1),
+              };
+            });
           }
         }}
       />
@@ -52,7 +87,15 @@ const Characters = () => {
         text={"next"}
         onClick={() => {
           if (pagesCount && page < pagesCount) {
-            setPage((page) => page + 1);
+            setSearchParams((prev) => {
+              const params = Object.fromEntries(prev);
+              const currentPage = Number(params.page ?? 1);
+
+              return {
+                ...params,
+                page: String(currentPage + 1),
+              };
+            });
           }
         }}
       />
