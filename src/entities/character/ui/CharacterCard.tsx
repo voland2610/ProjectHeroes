@@ -1,4 +1,5 @@
-import { useFavorites } from "~/features/favorites/model/useFavorites";
+import { useAppDispatch, useAppSelector } from "~/app/store/hooks";
+import { toggleFavorite } from "~/features/favorites/model/favoritesSlice";
 import styles from "./charactersCard.module.scss";
 
 interface CharacterCardProps {
@@ -6,7 +7,6 @@ interface CharacterCardProps {
   status: string;
   image: string;
   id: number;
-  
 }
 
 export const CharacterCard = ({
@@ -15,21 +15,25 @@ export const CharacterCard = ({
   image,
   id,
 }: CharacterCardProps) => {
-  const { addFavorite, removeFavorite, isFavorite, toggleFavorite } = useFavorites();
-  const isFavoriteCharacter = isFavorite(id); 
+  const dispatch = useAppDispatch();
+
+  const favorites = useAppSelector((state) => state.favorites);
+
+  const isFavoriteCharacter = favorites.includes(id);
+  
   return (
     <div className={styles.card}>
       <h1 className={styles.cardTitle}>{name}</h1>
       <p className={styles.cardStatus}>{status}</p>
+
       <div className={styles.cardImgWrapper}>
         <img className={styles.cardImg} src={image} alt={name} />
+
         <span
-          onClick={() =>
-            toggleFavorite(id)
-          }
+          onClick={() => dispatch(toggleFavorite(id))}
           className={styles.isFavorites}
         >
-          {isFavoriteCharacter ? "❤️" :"🤍" }
+          {isFavoriteCharacter ? "❤️" : "🤍"}
         </span>
       </div>
     </div>
