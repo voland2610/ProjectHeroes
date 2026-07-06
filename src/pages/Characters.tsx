@@ -1,60 +1,64 @@
 import { useEffect, useRef, useState } from "react";
-import { useCharacters } from "~/entities/character";
+// import { useCharacters } from "~/entities/character";
 import { CharacterSearch } from "~/widgets/character-search/ui/Character-search";
 import { CharactersPagination } from "~/features/characters-pagination/Characters-pagination";
 import { CharactersView } from "~/widgets/characters-view/CharactersView";
 import { useDebounce } from "~/shared/hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
+// TODO | 06.07.2026: Расширить конфиг eslint на проверку неиспользуемых
+// импортов + добавить Prettier в проект. Посмотреть и добавить husky с
+// pre-commit хуками на prettier и eslint прогоны.
 import { Header } from "~/widgets/header/Header";
+import { useCharacters } from "~/entities/character";
 
 const Characters = () => {
-  const isFirstRender = useRef(true);
+  // const isFirstRender = useRef(true);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = Number(searchParams.get("page") ?? 1);
 
+  const page = Number(searchParams.get("page") ?? 1);
   const nameFromUrl = searchParams.get("name") ?? "";
-  const [inputValue, setInputValue] = useState(() => {
-    return nameFromUrl;
-  });
-  const prevNameRef = useRef(nameFromUrl);
+
+  const [inputValue, setInputValue] = useState(nameFromUrl);
+  // const prevNameRef = useRef(nameFromUrl);
   const delay = 500;
   const debouncedValue = useDebounce(inputValue, delay);
 
   const { data, isLoading, isError } = useCharacters(
     debouncedValue.trim(),
-    page,
+    page
   );
 
-  useEffect(() => {
-    setInputValue(nameFromUrl);
-  }, [nameFromUrl]);
+  // useEffect(() => {
+  //   setInputValue(nameFromUrl);
+  // }, [nameFromUrl]);
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      prevNameRef.current = debouncedValue;
-      return;
-    }
+  // TODO | 06.07.2026: Проверить необходимость.
+  // Сделать sync между поиском и URL Search Params.
+  // useEffect(() => {
+  //   if (isFirstRender.current) {
+  //     isFirstRender.current = false;
+  //     prevNameRef.current = debouncedValue;
+  //     return;
+  //   }
 
-    setSearchParams((prev) => {
-      const params = Object.fromEntries(prev);
+  //   setSearchParams((prev) => {
+  //     const params = Object.fromEntries(prev);
 
-      return {
-        ...params,
-        name: debouncedValue,
-      };
-    });
+  //     return {
+  //       ...params,
+  //       name: debouncedValue,
+  //     };
+  //   });
 
-    prevNameRef.current = debouncedValue;
-  }, [debouncedValue]);
+  //   prevNameRef.current = debouncedValue;
+  // }, [debouncedValue]);
 
   const pagesCount = data?.info.pages;
   const results = data?.results ?? [];
 
   return (
     <div>
-      
       <CharacterSearch
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
@@ -70,6 +74,7 @@ const Characters = () => {
         disabled={page === 1}
         text={"back"}
         onClick={() => {
+          // TODO | 06.07.2026: Сделать отдельной функцией и переиспользовать.
           if (page > 1) {
             setSearchParams((prev) => {
               const params = Object.fromEntries(prev);
@@ -79,6 +84,7 @@ const Characters = () => {
                 ...params,
                 page: String(currentPage - 1),
               };
+              // pagination: (arg: "next" | "back") => void
             });
           }
         }}

@@ -7,6 +7,7 @@ const FavoritesPage = () => {
 
   const { data, isLoading, isError } = useCharacters("", 1);
 
+  // TODO | 06.07.2026: Переделываем на запросе get mupltiple characters.
   const results = data?.results.filter((c) => favorites.includes(c.id)) ?? [];
 
   if (!favorites.length) {

@@ -9,10 +9,8 @@ export const CharactersPagination = ({
   disabled,
   onClick,
   text,
-}: CharactersPaginationProps) => {
-  return (
-    <button className={styles.button} disabled={disabled} onClick={onClick}>
-      {text}
-    </button>
-  );
-};
+}: CharactersPaginationProps) => (
+  <button className={styles.button} disabled={disabled} onClick={onClick}>
+    {text}
+  </button>
+);
