@@ -5,6 +5,7 @@ import { CharactersPagination } from "~/features/characters-pagination/Character
 import { CharactersView } from "~/widgets/characters-view/CharactersView";
 import { useDebounce } from "~/shared/hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
+import { Header } from "~/widgets/header/Header";
 
 const Characters = () => {
   const isFirstRender = useRef(true);
@@ -53,18 +54,18 @@ const Characters = () => {
 
   return (
     <div>
+      
       <CharacterSearch
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
       />
-
+      {"Страница " + page}
       <CharactersView
         isLoading={isLoading}
         isError={isError}
         results={results}
       />
       {/* Попробовать сделать удобную пагинацию и добавить информацию о странцие внизу. */}
-      {"Страница " + page}
       <CharactersPagination
         disabled={page === 1}
         text={"back"}
