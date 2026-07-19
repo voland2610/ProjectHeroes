@@ -29,7 +29,3 @@ store.subscribe(() => {
 
   localStorage.setItem(FAVORITES_KEY, JSON.stringify(state.favorites));
 });
-
-// TODO | 06.07.2026: Вынести типы в отдельный файл.
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
