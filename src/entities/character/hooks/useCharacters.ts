@@ -1,11 +1,11 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getCharacters } from "../api/getCharacters";
 import type { CharacterResponse } from "../model/CharacterResponse";
+import { CHARACTERS_KEY } from "../constants";
 
 export function useCharacters(search: string, page: number) {
   return useQuery<CharacterResponse>({
-    // TODO | 06.07.2026: Используем ключ из переменной.
-    queryKey: ["characters", search, page],
+    queryKey: [CHARACTERS_KEY, search, page],
     queryFn: () =>
       getCharacters({
         name: search,

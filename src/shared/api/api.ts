@@ -1,8 +1,8 @@
 import axios from "axios";
+import { API_URL } from "./config";
 
 export const api = axios.create({
-  // TODO | 06.07.2026: Забыл использовать переменную.
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },

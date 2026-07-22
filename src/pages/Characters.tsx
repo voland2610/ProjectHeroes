@@ -32,7 +32,7 @@ const Characters = () => {
   
   useEffect(() => {
     // Данный useRef использую как флажок, для того чтобы знать когда
-      // произошел первый рендер, чтобы url лишний раз не менять
+    // произошел первый рендер, чтобы url лишний раз не менять
   if (isFirstRender.current) {
     isFirstRender.current = false;
     prevSearchRef.current = debouncedValue;

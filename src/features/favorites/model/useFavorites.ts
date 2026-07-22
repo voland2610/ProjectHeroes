@@ -1,3 +1,4 @@
+// Данный файл ни влияет не на что (ради учебной цели был разработан)
 import { useEffect, useState } from "react";
 
 const getInitialFavorites = (): number[] => {
