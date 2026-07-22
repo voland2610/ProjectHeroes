@@ -1,6 +1,8 @@
 import { useAppDispatch, useAppSelector } from "~/app/store/hooks";
 import { toggleFavorite } from "~/features/favorites/model/favoritesSlice";
 import styles from "./charactersCard.module.scss";
+import { Link } from "react-router-dom";
+import { CHARACTERS_KEY } from "../constants";
 
 interface CharacterCardProps {
   name: string;
@@ -20,22 +22,27 @@ export const CharacterCard = ({
   const favorites = useAppSelector((state) => state.favorites);
 
   const isFavoriteCharacter = favorites.includes(id);
-  
+
   return (
-    <div className={styles.card}>
+    <Link to={`/${CHARACTERS_KEY}/${id}`} className={styles.card}>
       <h1 className={styles.cardTitle}>{name}</h1>
       <p className={styles.cardStatus}>{status}</p>
 
       <div className={styles.cardImgWrapper}>
         <img className={styles.cardImg} src={image} alt={name} />
 
-        <span
-          onClick={() => dispatch(toggleFavorite(id))}
+        <button
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            dispatch(toggleFavorite(id));
+          }}
           className={styles.isFavorites}
         >
           {isFavoriteCharacter ? "❤️" : "🤍"}
-        </span>
+        </button>
       </div>
-    </div>
+    </Link>
   );
 };

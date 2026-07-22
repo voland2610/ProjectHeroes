@@ -1,3 +1,4 @@
+// Данный файл ни влияет не на что (ради учебной цели был разработан)
 import { useEffect, useState } from "react";
 
 const getInitialFavorites = (): number[] => {
@@ -34,10 +35,10 @@ export const useFavorites = () => {
   }
 
   function toggleFavorite(id: number) {
-    if(favorite.includes(id)) {
-      removeFavorite(id)
+    if (favorite.includes(id)) {
+      removeFavorite(id);
     } else {
-      addFavorite(id)
+      addFavorite(id);
     }
   }
 

@@ -29,32 +29,32 @@ const Characters = () => {
   useEffect(() => {
     setInputValue(nameFromUrl);
   }, [nameFromUrl]);
-  
+
   useEffect(() => {
     // Данный useRef использую как флажок, для того чтобы знать когда
-      // произошел первый рендер, чтобы url лишний раз не менять
-  if (isFirstRender.current) {
-    isFirstRender.current = false;
+    // произошел первый рендер, чтобы url лишний раз не менять
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      prevSearchRef.current = debouncedValue;
+      return;
+    }
+
+    const searchChanged = prevSearchRef.current !== debouncedValue;
+
+    if (searchChanged) {
+      setSearchParams((prev) => {
+        const params = Object.fromEntries(prev);
+
+        return {
+          ...params,
+          name: debouncedValue,
+          page: "1",
+        };
+      });
+    }
+
     prevSearchRef.current = debouncedValue;
-    return;
-  }
-
-  const searchChanged = prevSearchRef.current !== debouncedValue;
-
-  if (searchChanged) {
-    setSearchParams((prev) => {
-      const params = Object.fromEntries(prev);
-
-      return {
-        ...params,
-        name: debouncedValue,
-        page: "1",
-      };
-    });
-  }
-
-  prevSearchRef.current = debouncedValue;
-}, [debouncedValue, setSearchParams]);
+  }, [debouncedValue, setSearchParams]);
 
   function changePage(direction: "next" | "back") {
     setSearchParams((prev) => {

@@ -1,5 +1,6 @@
 import { api } from "~/shared/api/api";
 import type { CharacterResponse } from "../model/CharacterResponse";
+import { CHARACTERS_URL } from "../constants";
 
 type GetCharactersParams = {
   name: string;
@@ -7,10 +8,9 @@ type GetCharactersParams = {
 };
 
 export async function getCharacters(
-  params: GetCharactersParams
+  params: GetCharactersParams,
 ): Promise<CharacterResponse> {
-  // TODO | 06.07.2026: URL'ы для запросов тоже можно вынести в отдельные переменные в отдельном файле.
-  const response = await api.get<CharacterResponse>("/character", {
+  const response = await api.get<CharacterResponse>(CHARACTERS_URL, {
     params,
   });
 
