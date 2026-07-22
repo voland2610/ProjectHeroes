@@ -16,7 +16,6 @@ export const router = createBrowserRouter([
       {
         path: "/characters/:id",
         element: <CharacterDetailsPage />,
-
       },
       // TODO | 06.07.2026: Создать страничку отдельно персонажа.
       {

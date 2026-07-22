@@ -12,7 +12,6 @@ export const CharactersView = ({
   isError,
   results,
 }: CharactersViewProps) => {
-
   if (isLoading) {
     return <h1>Идет загрузка</h1>;
   }

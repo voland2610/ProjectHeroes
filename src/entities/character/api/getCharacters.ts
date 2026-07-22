@@ -8,7 +8,7 @@ type GetCharactersParams = {
 };
 
 export async function getCharacters(
-  params: GetCharactersParams
+  params: GetCharactersParams,
 ): Promise<CharacterResponse> {
   const response = await api.get<CharacterResponse>(CHARACTERS_URL, {
     params,

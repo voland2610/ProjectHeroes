@@ -12,7 +12,7 @@ export async function getMultipleCharacters(
   if (!characters_ids.length) {
     return [];
   }
-  
+
   if (Array.isArray(response.data)) {
     return response.data;
   } else {
